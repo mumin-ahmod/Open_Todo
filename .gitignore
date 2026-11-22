@@ -69,3 +69,7 @@ app.*.map.json
 
 # FVM (if used)
 .fvm/flutter_sdk
+
+# Project documentation (local only; see /doc in project rules)
+/doc/
+/docs/
