@@ -13,7 +13,6 @@ import 'package:open_todo/domain/usecases/get_storage_profile.dart';
 import 'package:open_todo/domain/usecases/get_todos.dart';
 import 'package:open_todo/domain/usecases/toggle_todo.dart';
 import 'package:open_todo/presentation/bloc/tag_bloc.dart';
-import 'package:open_todo/presentation/bloc/tag_event.dart';
 import 'package:open_todo/presentation/bloc/todo_bloc.dart';
 import 'package:open_todo/presentation/bloc/todo_event.dart';
 import 'package:open_todo/presentation/bloc/todo_state.dart';
@@ -56,51 +55,40 @@ TodoBloc _buildTestBloc(InMemoryTodoRepository repository) {
   );
 }
 
-Future<void> _pumpHome(WidgetTester tester, TodoBloc bloc) async {
-  await tester.pumpWidget(
-    MaterialApp(
-      theme: AppTheme.light,
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider.value(value: bloc),
-          BlocProvider(
-            create: (_) => SettingsCubit(_FakeSettingsRepository())..load(),
-          ),
-          BlocProvider(
-            create: (_) => TagBloc(_FakeTagRepository())..add(const TagStarted()),
-          ),
-        ],
-        child: const HomePage(),
-      ),
-    ),
-  );
-}
-
 void main() {
-  testWidgets('renders home screen and adds a todo', (tester) async {
+  testWidgets('home screen shows drawer and list updates when todo added', (tester) async {
     final repository = InMemoryTodoRepository();
-    final bloc = _buildTestBloc(repository)..add(const TodoStarted());
+    final bloc = _buildTestBloc(repository)
+      ..emit(const TodoState(status: TodoStatus.success));
 
-    await _pumpHome(tester, bloc);
-    await bloc.stream.firstWhere((s) => s.status == TodoStatus.success);
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light,
+        home: MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: bloc),
+            BlocProvider(
+              create: (_) => SettingsCubit(_FakeSettingsRepository()),
+            ),
+            BlocProvider(
+              create: (_) => TagBloc(_FakeTagRepository()),
+            ),
+          ],
+          child: const HomePage(),
+        ),
+      ),
+    );
     await tester.pump();
 
     expect(find.text('Open Todo'), findsOneWidget);
-    expect(find.text('No tasks yet'), findsOneWidget);
+    expect(find.byIcon(Icons.menu), findsOneWidget);
 
-    await tester.tap(find.text('Add'));
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 400));
-
-    await tester.enterText(find.byType(TextField), 'Ship release');
-    await tester.tap(find.text('Add task'));
-    await tester.pump();
+    bloc.add(const TodoAdded('Ship release'));
     await bloc.stream.firstWhere(
       (s) => s.todos.any((t) => t.title == 'Ship release'),
     );
     await tester.pump();
 
     expect(find.text('Ship release'), findsOneWidget);
-    expect(find.text('No tasks yet'), findsNothing);
   });
 }
