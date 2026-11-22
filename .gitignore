@@ -1,0 +1,71 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+*.swo
+*~
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ / Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# VS Code (uncomment to ignore editor config)
+#.vscode/
+
+# Cursor
+# Ignore local Cursor IDE state; keep shared project rules in git.
+.cursor/
+!.cursor/rules/
+!.cursor/rules/**
+
+# Flutter/Dart/Pub
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+/coverage/
+*.dart.js
+*.info.json
+*.js.deps
+*.js.map
+*.js_
+
+# Symbolication / obfuscation
+app.*.symbols
+app.*.map.json
+
+# Android build outputs
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Secrets & local env (never commit)
+.env
+.env.*
+!.env.example
+**/key.properties
+**/*.keystore
+**/*.jks
+
+# FVM (if used)
+.fvm/flutter_sdk
