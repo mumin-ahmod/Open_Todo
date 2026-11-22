@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/constants/app_info.dart';
 import '../../core/theme/app_colors.dart';
 import '../pages/daily_progress_page.dart';
+import '../pages/monthly_progress_page.dart';
 import '../pages/info_page.dart';
 import '../pages/settings_page.dart';
 import '../pages/tags_page.dart';
@@ -53,6 +54,12 @@ class AppDrawer extends StatelessWidget {
               icon: Icons.today_outlined,
               label: 'Daily progress',
               onTap: () => _open(context, const DailyProgressPage()),
+            ),
+            _DrawerTile(
+              icon: Icons.bar_chart_rounded,
+              label: 'Monthly progress',
+              subtitle: 'Daily adds & completions',
+              onTap: () => _open(context, const MonthlyProgressPage()),
             ),
             _DrawerTile(
               icon: Icons.sell_outlined,
