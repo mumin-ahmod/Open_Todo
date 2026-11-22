@@ -81,7 +81,7 @@ void main() {
     await tester.pump();
 
     expect(find.text('Open Todo'), findsOneWidget);
-    expect(find.byIcon(Icons.menu), findsOneWidget);
+    expect(find.byIcon(Icons.view_sidebar_rounded), findsOneWidget);
 
     bloc.add(const TodoAdded('Ship release'));
     await bloc.stream.firstWhere(

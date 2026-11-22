@@ -11,6 +11,7 @@ import '../cubit/settings_cubit.dart';
 import '../models/new_todo_draft.dart';
 import '../widgets/add_todo_sheet.dart';
 import '../widgets/app_drawer.dart';
+import '../widgets/drawer_menu_button.dart';
 import '../widgets/todo_list_tile.dart';
 import '../widgets/todo_stats_row.dart';
 
@@ -61,6 +62,8 @@ class HomePage extends StatelessWidget {
             return Scaffold(
               drawer: const AppDrawer(),
               appBar: AppBar(
+                automaticallyImplyLeading: false,
+                leading: const DrawerMenuButton(),
                 title: const Text('Open Todo'),
               ),
               body: state.status == TodoStatus.loading
